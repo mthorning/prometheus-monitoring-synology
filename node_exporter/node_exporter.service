@@ -1,0 +1,15 @@
+[Unit]
+Description=Node Exporter
+Documentation=https://github.com/prometheus/node_exporter
+After=network-online.target
+
+[Service]
+User=node_exporter
+Group=node_exporter
+Restart=on-failure
+ExecStart=/usr/local/bin/node_exporter \
+  --web.listen-address=":9100" \
+  --collector.textfile.directory="/var/lib/node_exporter/textfile_collector" # Optional, if you use textfile collector
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=SNMP Exporter
+Documentation=https://github.com/prometheus/snmp_exporter
+After=network-online.target
+
+[Service]
+User=snmp_exporter
+Group=snmp_exporter
+Restart=on-failure
+EnvironmentFile=/etc/snmp_exporter/.env
+ExecStart=/usr/local/bin/snmp_exporter \
+  --web.listen-address=":9116" \
+  --config.file="/etc/snmp_exporter/snmp.yaml"
+  --config.expand-environment-variables=true
+
+[Install]
+WantedBy=multi-user.target
