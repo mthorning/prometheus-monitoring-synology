@@ -8,15 +8,11 @@ User=prometheus
 Group=prometheus
 Restart=on-failure
 LimitNOFILE=65535
-ExecStart=/opt/prometheus/prometheus \
+ExecStart=/opt/prometheus \
   --config.file=/etc/prometheus/prometheus.yaml \
   --storage.tsdb.path=/var/lib/prometheus \
   --web.console.templates=/opt/prometheus/consoles \
-  --web.console.libraries=/opt/prometheus/console_libraries \
-
-  //useful when testing to allow reloading the config with a http request
-  --web.enable-lifecycle=true \
-  --log.level=debug
+  --web.console.libraries=/opt/prometheus/console_libraries
 
 [Install]
 WantedBy=multi-user.target
