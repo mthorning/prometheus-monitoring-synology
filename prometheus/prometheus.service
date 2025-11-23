@@ -11,8 +11,8 @@ LimitNOFILE=65535
 ExecStart=/opt/prometheus \
   --config.file=/etc/prometheus/prometheus.yaml \
   --storage.tsdb.path=/var/lib/prometheus \
-  --web.console.templates=/opt/prometheus/consoles \
-  --web.console.libraries=/opt/prometheus/console_libraries
+  --web.console.templates=/etc/prometheus/consoles \
+  --web.console.libraries=/etc/prometheus/console_libraries
 
 [Install]
 WantedBy=multi-user.target

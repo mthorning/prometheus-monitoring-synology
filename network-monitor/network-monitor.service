@@ -1,0 +1,15 @@
+[Unit]
+Description=Network Monitor
+Documentation=https://github.com/mthorning/network-monitor
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+AmbientCapabilities=CAP_NET_RAW
+Restart=on-failure
+LimitNOFILE=65535
+ExecStart=/usr/local/bin/network-monitor
+
+[Install]
+WantedBy=multi-user.target
