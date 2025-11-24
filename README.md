@@ -1,6 +1,8 @@
 # Monitoring Synology NAS with Prometheus (and Grafana)
 Configuration files for running a Prometheus server with snmp_exporter and node_exporter to collect metrics from a Synology NAS. The plan is for this to run on a Raspberry Pi but could run on any Linux system. Metrics will be remote-written to Mimir in Grafana Cloud.
 
+A note about network-monitor: This is a small tool I created to collect additional network metrics, but its use is optional. If you choose not to run network-monitor, simply update your prometheus.yaml configuration file to remove the scrape target for it. The rest of the setup will work as described without this component.
+
 ## Installation
 
 - Create a dedicated user:
