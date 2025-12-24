@@ -91,16 +91,53 @@ sudo cp ./snmp_exporter/snmp_exporter.service /etc/systemd/system/snmp_exporter.
 sudo vi /etc/snmp_exporter/snmp.yaml
 ```
 
-## Start the services
+### Promtail
+
+Promtail is an agent which ships local logs to a Loki instance (self-hosted or Grafana Cloud).
+
+- Give the user permission for systemd journal:
+```bash
+sudo usermod -a -G systemd-journal prometheus
+```
+
+- Create directories:
+```bash
+sudo mkdir /etc/promtail
+sudo mkdir /var/lib/promtail
+sudo chown prometheus:prometheus /etc/promtail
+sudo chown prometheus:prometheus /var/lib/promtail
+```
+
+- [Download](https://github.com/grafana/loki/releases) and install:
+```bash
+PT_VERSION=3.6.3 # Replace with desired version
+PT_OS_ARCH=linux-arm64 # Replace with desired OS-Arch
+wget https://github.com/grafana/loki/releases/download/v$PT_VERSION/promtail-$PT_OS_ARCH.zip
+unzip promtail-$PT_OS_ARCH.zip
+sudo mv promtail-linux-arm64 /opt/promtail
+sudo chown -R prometheus:prometheus /opt/promtail
+```
+
+- Copy the config files:
+```bash
+sudo cp ./promtail/promtail.yaml /etc/promtail/promtail.yaml
+sudo cp ./promtail/promtail.service /etc/systemd/system/promtail.service
+```
+
+- Update the promtail.yaml file with your Loki endpoint and credentials if using Grafana Cloud:
+```bash
+sudo vi /etc/promtail/promtail.yaml
+```
+
 - Reload systemd and start the services:
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl start prometheus node_exporter snmp_exporter
+sudo systemctl start prometheus node_exporter snmp_exporter promtail
 ```
 
 - Enable services to start on boot:
 ```bash
-sudo systemctl enable prometheus node_exporter snmp_exporter
+sudo systemctl enable prometheus node_exporter snmp_exporter promtail
 ```
 
 - Check the status of a service:
@@ -120,3 +157,5 @@ sudo journalctl -u <SERVICE_NAME>.service -f
 - [Node Exporter](https://github.com/prometheus/node_exporter)
 - [Useful blog post by Colby.gg](https://colby.gg/posts/2023-10-17-monitoring-synology/)
 - [Synology dashboard for import](https://grafana.com/grafana/dashboards/13516-synology-snmp-dashboard/)
+- [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/)
+- [Loki](https://grafana.com/oss/loki/)

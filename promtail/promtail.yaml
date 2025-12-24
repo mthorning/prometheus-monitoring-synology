@@ -1,0 +1,22 @@
+# BEWARE, DO NOT PUSH THIS AND OVERWRITE EXISTING CONFIG!
+# YOU NEED TO UPDATE THE REMOTE WRITE BLOCK WITH URL & AUTH
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /var/lib/promtail/positions.yaml
+
+clients:
+  - url: # GET URL FROM GRAFANA.COM
+
+scrape_configs:
+  - job_name: network-monitor-journal
+    journal:
+      max_age: 12h
+      labels:
+        job: network-monitor
+    relabel_configs:
+      - source_labels: ["__journal__systemd_unit"]
+        regex: network-monitor\.service
+        action: keep
