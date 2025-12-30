@@ -8,7 +8,8 @@ User=prometheus
 Group=prometheus
 Restart=on-failure
 ExecStart=/opt/node_exporter \
-  --web.listen-address=localhost:9100
+  --web.listen-address=localhost:9100 \
+  --collector.systemd
 
 [Install]
 WantedBy=multi-user.target
